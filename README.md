@@ -3,11 +3,11 @@ This python script generates a web page with a d3.js visualization of the relati
 
 Input CSV file must be in this format:
 
-Input, Output, Category
-Pam,Tom,wife
-Tom,John,friends
-Sidney,Morgan,friends
-Casey,Justin,brother
+Input, Output, Category <br />
+Pam,Tom,wife <br />
+Tom,John,friends <br />
+Sidney,Morgan,friends <br />
+Casey,Justin,brother <br />
 
 
 Friendships (Category = friends) are displayed with green links, while all other relationships (Category != friends) are assumed to be family and are displayed with red links
