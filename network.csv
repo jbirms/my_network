@@ -1,0 +1,28 @@
+Input,Output,Category
+Pam,Tom,wife
+Tom,John,friends
+Sidney,Morgan,friends
+Casey,Justin,brother
+Justin,Tommy,cousin
+Justin,Jeff,cousin
+Justin,Heather,brother
+Heather,Jeff,cousin
+Heather,Tommy,cousin
+Casey,Tommy,cousin
+Casey,Pam,cousin
+Chris,Justin,father
+Denise,Justin,mother
+Chris,Casey,father
+Denise,Casey,mother
+Chris,Heather,father
+Denise,Heather,mother
+Alexander Hamilton,Chris,friends
+Alexander Hamilton,Heather,friends
+Angela,Chris,wife
+Sandy,Angela,friends
+Tina,Angela,sister
+Sandy,Chris,friends
+Tareq,Justin,friends
+Morgan,Justin,friends
+Razzi,Tareq,brother
+Razzi,Justin,friends

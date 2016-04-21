@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+    /* Reset */
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .link {
+      fill: none;
+      stroke: #666;
+      stroke-width: 1.0px;
+    }
+
+    .link.friend {
+      stroke: green;
+    }
+
+    .link.family {
+        stroke: red;
+    }
+
+    circle {
+      fill: #ccc;
+      stroke: #333;
+      stroke-width: 1.5px;
+    }
+
+    text {
+      font: 10px sans-serif;
+      pointer-events: none;
+      text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    }
+    </style>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+    <script>
+    var links = [
+
+{source: "Pam", target: "Tom", type: "family"},
+{source: "Tom", target: "John", type: "friend"},
+{source: "Sidney", target: "Morgan", type: "friend"},
+{source: "Casey", target: "Justin", type: "family"},
+{source: "Justin", target: "Tommy", type: "family"},
+{source: "Justin", target: "Jeff", type: "family"},
+{source: "Justin", target: "Heather", type: "family"},
+{source: "Heather", target: "Jeff", type: "family"},
+{source: "Heather", target: "Tommy", type: "family"},
+{source: "Casey", target: "Tommy", type: "family"},
+{source: "Casey", target: "Pam", type: "family"},
+{source: "Chris", target: "Justin", type: "family"},
+{source: "Denise", target: "Justin", type: "family"},
+{source: "Chris", target: "Casey", type: "family"},
+{source: "Denise", target: "Casey", type: "family"},
+{source: "Chris", target: "Heather", type: "family"},
+{source: "Denise", target: "Heather", type: "family"},
+{source: "Alexander Hamilton", target: "Chris", type: "friend"},
+{source: "Alexander Hamilton", target: "Heather", type: "friend"},
+{source: "Angela", target: "Chris", type: "family"},
+{source: "Sandy", target: "Angela", type: "friend"},
+{source: "Tina", target: "Angela", type: "family"},
+{source: "Sandy", target: "Chris", type: "friend"},
+{source: "Tareq", target: "Justin", type: "friend"},
+{source: "Morgan", target: "Justin", type: "friend"},
+{source: "Razzi", target: "Tareq", type: "family"},
+{source: "Razzi", target: "Justin", type: "friend"}
+    ];
+
+    var nodes = {};
+
+    // Compute the distinct nodes from the links.
+    links.forEach(function(link) {
+      link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+      link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+    });
+
+    var svg = d3.select("body").append("svg")
+
+    var force = d3.layout.force()
+        .nodes(d3.values(nodes))
+        .links(links)
+        .linkDistance(100)
+        .charge(-400)
+        .on("tick", tick)
+        .start();
+
+    var path = svg.append("g").selectAll("path")
+        .data(force.links())
+        .enter().append("path")
+        .attr("class", function(d) { return "link " + d.type; });
+
+    var circle = svg.append("g").selectAll("circle")
+        .data(force.nodes())
+        .enter().append("circle")
+        .attr("r", 6)
+        .call(force.drag);
+
+    var text = svg.append("g").selectAll("text")
+        .data(force.nodes())
+        .enter().append("text")
+        .attr("x", 8)
+        .attr("y", ".31em")
+        .text(function(d) { return d.name; });
+
+    resize();
+    d3.select(window).on("resize", resize);
+
+    // Use elliptical arc path segments to doubly-encode directionality.
+    function tick() {
+      path.attr("d", linkArc);
+      circle.attr("cx", function(d) { return d.x = Math.max(6, Math.min(window.innerWidth - 6, d.x)); })
+            .attr("cy", function(d) { return d.y = Math.max(6, Math.min(window.innerHeight - 6, d.y)); });
+      text.attr("transform", transform);
+    }
+
+    function linkArc(d) {
+      var dx = d.target.x - d.source.x,
+          dy = d.target.y - d.source.y,
+          dr = Math.sqrt(dx * dx + dy * dy);
+          return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+    }
+
+    function transform(d) {
+      return "translate(" + d.x + "," + d.y + ")";
+    }
+
+    function resize() {
+        width = window.innerWidth, height = window.innerHeight;
+        svg.attr("width", width).attr("height", height);
+        force.size([width, height]).resume();
+    }
+
+    </script>
+</body>
+</html>
