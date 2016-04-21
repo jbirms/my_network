@@ -4,13 +4,9 @@ This python script generates a web page with a d3.js visualization of the relati
 Input CSV file must be in this format:
 
 Input, Output, Category
-
 Pam,Tom,wife
-
 Tom,John,friends
-
 Sidney,Morgan,friends
-
 Casey,Justin,brother
 
 
